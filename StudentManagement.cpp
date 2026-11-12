@@ -5,7 +5,6 @@
 #include <limits>
 #include <stdexcept>
 using namespace std;
-
 class Student
 {
 private:
@@ -14,12 +13,8 @@ private:
     string course;
     string studentClass;
     string contact;
-
     static int totalStudents;
-
-public:
-
-    
+public:   
     Student()
     {
         rollNo = 0;
@@ -28,9 +23,7 @@ public:
         studentClass = "";
         contact = "";
         totalStudents++;
-    }
-
-    
+    }  
     Student(int r, string n, string c, string cl, string ct)
     {
         rollNo = r;
@@ -39,9 +32,7 @@ public:
         studentClass = cl;
         contact = ct;
         totalStudents++;
-    }
-
-    
+    } 
     Student(const Student &s)
     {
         rollNo = s.rollNo;
@@ -51,14 +42,10 @@ public:
         contact = s.contact;
         totalStudents++;
     }
-
-    
     virtual ~Student()
     {
         totalStudents--;
-    }
-
-    
+    } 
     inline int getRollNo() const
     {
         return rollNo;
@@ -68,8 +55,6 @@ public:
     {
         return name;
     }
-
-    
     void setData(int r, string n, string c, string cl, string ct)
     {
         if(r <= 0)
@@ -81,8 +66,6 @@ public:
         studentClass = cl;
         contact = ct;
     }
-
-    
     virtual void display() const
     {
         cout << "\nRoll Number : " << rollNo;
@@ -92,8 +75,6 @@ public:
         cout << "\nContact     : " << contact;
         cout << "\n------------------------------";
     }
-
-    
     void search(int r) const
     {
         if(rollNo == r)
@@ -104,15 +85,11 @@ public:
     {
         if(name == n)
             display();
-    }
-
-    
+    }  
     bool operator==(const Student &s) const
     {
         return rollNo == s.rollNo;
-    }
-
-    
+    }  
     void save(ofstream &file) const
     {
         file << rollNo << '\n';
@@ -141,19 +118,12 @@ public:
     
     friend void studentDetails(const Student &s);
 };
-
-
 int Student::totalStudents = 0;
-
-
 void studentDetails(const Student &s)
 {
     cout << "\nStudent Name: " << s.name;
     cout << "\nRoll Number: " << s.rollNo;
 }
-
-
-
 class AcademicStudent : public Student
 {
 private:
@@ -171,9 +141,7 @@ public:
         : Student(r, n, c, cl, ct)
     {
         marks = m;
-    }
-
-    
+    } 
     void display() const override
     {
         Student::display();
@@ -181,17 +149,12 @@ public:
         cout << "\n------------------------------";
     }
 };
-
-
-
 class StudentManagement
 {
 private:
     Student *students[20];
     int total;
-
 public:
-
     StudentManagement()
     {
         total = 0;
@@ -199,7 +162,6 @@ public:
         for(int i = 0; i < 20; i++)
             students[i] = nullptr;
     }
-
     ~StudentManagement()
     {
         for(int i = 0; i < total; i++)
@@ -207,9 +169,7 @@ public:
             delete students[i];
             students[i] = nullptr;
         }
-    }
-
-    
+    }  
     int findStudent(int rollNo) const
     {
         for(int i = 0; i < total; i++)
@@ -217,11 +177,8 @@ public:
             if(students[i]->getRollNo() == rollNo)
                 return i;
         }
-
         return -1;
     }
-
-
     void addStudent()
     {
         if(total == 20)
@@ -229,16 +186,13 @@ public:
             cout << "\nMaximum limit reached!";
             return;
         }
-
         int r;
         string n, c, cl, ct;
 
         cout << "\nEnter Roll Number: ";
         cin >> r;
-
         if(r <= 0)
             throw invalid_argument("Invalid roll number!");
-
         if(findStudent(r) != -1)
             throw runtime_error("Roll number already exists!");
 
@@ -263,8 +217,6 @@ public:
 
         cout << "\nStudent added successfully!";
     }
-
-
     void displayStudents() const
     {
         if(total == 0)
@@ -278,8 +230,6 @@ public:
             students[i]->display();
         }
     }
-
-
     void searchStudent()
     {
         int r;
@@ -296,53 +246,36 @@ public:
         else
         {
             cout << "\nStudent found!";
-            students[index]->display();
-
-            
+            students[index]->display(); 
             studentDetails(*students[index]);
         }
     }
-
-    
-
     void updateStudent()
     {
         int r;
-
         cout << "\nEnter Roll Number to Update: ";
         cin >> r;
-
         int index = findStudent(r);
-
         if(index == -1)
         {
             cout << "\nStudent not found!";
             return;
         }
-
         string n, c, cl, ct;
 
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         cout << "Enter New Name: ";
         getline(cin, n);
-
         cout << "Enter New Course: ";
         getline(cin, c);
-
         cout << "Enter New Class: ";
         getline(cin, cl);
-
         cout << "Enter New Contact: ";
         getline(cin, ct);
-
         students[index]->setData(r, n, c, cl, ct);
-
         cout << "\nStudent updated successfully!";
     }
-
-    
-
     void deleteStudent()
     {
         int r;
