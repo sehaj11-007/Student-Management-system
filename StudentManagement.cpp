@@ -6,8 +6,6 @@
 #include <stdexcept>
 using namespace std;
 
-
-
 class Student
 {
 private:
@@ -519,8 +517,6 @@ public:
         } while(choice != 8);
     }
 };
-
-
 
 int main()
 {
